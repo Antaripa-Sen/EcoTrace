@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="dark" />
+  <title>Dashboard — TerraVerde</title>
+  <meta name="description" content="Your personal carbon footprint dashboard. Track, reduce, and offset your environmental impact." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body class="dashboard-body">
+
+  <div class="dashboard-layout">
+
+    <!-- =========== SIDEBAR =========== -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <a href="index.html" class="nav-logo sidebar-logo">
+          <span class="logo-icon">🌿</span>
+          <span class="logo-text">Terra<span class="logo-accent">Verde</span></span>
+        </a>
+        <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+      </div>
+
+      <div class="sidebar-user" id="sidebar-user">
+        <div class="user-avatar" id="user-avatar">AG</div>
+        <div class="user-info">
+          <span class="user-name" id="user-name">Alex Green</span>
+          <span class="user-level" id="user-level">🌟 Eco Warrior</span>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-label">Main</div>
+        <a href="#" class="sidebar-link active" data-page="dashboard" onclick="showPage('dashboard',this)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          <span>Dashboard</span>
+        </a>
+        <a href="#" class="sidebar-link" data-page="tracker" onclick="showPage('tracker',this)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          <span>Carbon Tracker</span>
+          <span class="nav-badge">Live</span>
+        </a>
+        <a href="#" class="sidebar-link" data-page="actions" onclick="showPage('actions',this)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+          <span>Actions</span>
+          <span class="nav-badge new">3</span>
+        </a>
+        <a href="#" class="sidebar-link" data-page="analytics" onclick="showPage('analytics',this)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          <span>Analytics</span>
+        </a>
+        <a href="#" class="sidebar-link" data-page="community" onclick="showPage('community',this)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+          <span>Community</span>
+        </a>
+        <div class="nav-section-label">Tools</div>
+        <a href="#" class="sidebar-link" data-page="calculator" onclick="showPage('calculator',this)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="16" y2="14"/><line x1="8" y1="18" x2="13" y2="18"/></svg>
+          <span>Calculator</span>
+        </a>
+        <a href="#" class="sidebar-link" data-page="offset" onclick="showPage('offset',this)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <span>Offset Hub</span>
+        </a>
+        <a href="#" class="sidebar-link" data-page="ai" onclick="showPage('ai',this)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+          <span>GreenAI</span>
+          <span class="nav-badge ai">AI</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <a href="#" class="sidebar-link" onclick="showPage('settings',this)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+          <span>Settings</span>
+        </a>
+        <a href="index.html" class="sidebar-link logout-link" onclick="logout()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          <span>Sign Out</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- =========== MAIN CONTENT =========== -->
+    <main class="dashboard-main" id="dashboard-main">
+
+      <!-- Top Bar -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Open sidebar">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          </button>
+          <div class="topbar-search">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="search" placeholder="Search actions, insights..." />
+          </div>
+        </div>
+        <div class="topbar-right">
+          <div class="topbar-coins">
+            <span>🪙</span>
+            <span id="coin-count">2,450</span>
+            <span class="coins-label">GreenCoins</span>
+          </div>
+          <button class="topbar-notif" id="notif-btn" aria-label="Notifications">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+            <span class="notif-dot"></span>
+          </button>
+          <div class="topbar-avatar" id="topbar-avatar">AG</div>
+        </div>
+      </header>
+
+      <!-- ===== PAGE: DASHBOARD ===== -->
+      <div class="page active" id="page-dashboard">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Good morning, <span id="greeting-name">Alex</span> 👋</h1>
+            <p class="page-subtitle">Here's your carbon footprint overview for today</p>
+          </div>
+          <div class="header-actions">
+            <button class="btn btn-ghost btn-sm" onclick="showPage('calculator', document.querySelector('[data-page=calculator]'))">
+              + Log Activity
+            </button>
+          </div>
+        </div>
+
+        <!-- KPI Cards -->
+        <div class="kpi-grid">
+          <div class="kpi-card kpi-main">
+            <div class="kpi-icon-wrap" style="background: rgba(34,197,94,0.15)">🌡️</div>
+            <div class="kpi-content">
+              <span class="kpi-label">Annual Footprint</span>
+              <div class="kpi-value-row">
+                <span class="kpi-value" id="kpi-footprint">4.2</span>
+                <span class="kpi-unit">tCO₂e</span>
+                <span class="kpi-change down">▼ 12%</span>
+              </div>
+              <div class="kpi-bar">
+                <div class="kpi-fill" style="width: 42%; background: linear-gradient(90deg, #22c55e, #86efac)"></div>
+              </div>
+              <span class="kpi-context">vs. 7.8t global average</span>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-icon-wrap" style="background: rgba(251,191,36,0.15)">🔥</div>
+            <div class="kpi-content">
+              <span class="kpi-label">Current Streak</span>
+              <div class="kpi-value-row">
+                <span class="kpi-value">21</span>
+                <span class="kpi-unit">days</span>
+                <span class="kpi-change up">↑ Personal best!</span>
+              </div>
+              <div class="streak-mini">
+                <span class="s-dot a"></span><span class="s-dot a"></span><span class="s-dot a"></span>
+                <span class="s-dot a"></span><span class="s-dot a"></span><span class="s-dot a"></span>
+                <span class="s-dot a"></span>
+              </div>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-icon-wrap" style="background: rgba(59,130,246,0.15)">🪙</div>
+            <div class="kpi-content">
+              <span class="kpi-label">GreenCoins</span>
+              <div class="kpi-value-row">
+                <span class="kpi-value">2,450</span>
+                <span class="kpi-unit">pts</span>
+              </div>
+              <span class="kpi-context">Rank #342 globally</span>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-icon-wrap" style="background: rgba(168,85,247,0.15)">🌳</div>
+            <div class="kpi-content">
+              <span class="kpi-label">Trees Planted</span>
+              <div class="kpi-value-row">
+                <span class="kpi-value">14</span>
+                <span class="kpi-unit">trees</span>
+              </div>
+              <span class="kpi-context">Absorbing 0.28t CO₂/year</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Charts Row -->
+        <div class="charts-row">
+          <div class="chart-card chart-main">
+            <div class="chart-header">
+              <h3>Carbon Footprint Trend</h3>
+              <div class="chart-tabs">
+                <button class="chart-tab active" onclick="switchChartPeriod('7d', this)">7D</button>
+                <button class="chart-tab" onclick="switchChartPeriod('30d', this)">30D</button>
+                <button class="chart-tab" onclick="switchChartPeriod('12m', this)">12M</button>
+              </div>
+            </div>
+            <canvas id="trend-chart"></canvas>
+          </div>
+          <div class="chart-card">
+            <div class="chart-header">
+              <h3>Footprint by Category</h3>
+            </div>
+            <canvas id="category-chart"></canvas>
+            <div class="category-legend" id="category-legend"></div>
+          </div>
+        </div>
+
+        <!-- Today's Actions + Leaderboard -->
+        <div class="content-row">
+          <!-- Today's Actions -->
+          <div class="content-card">
+            <div class="card-header">
+              <h3>Today's Actions</h3>
+              <span class="badge-count">3 new</span>
+            </div>
+            <div class="actions-list" id="today-actions">
+              <!-- populated by JS -->
+            </div>
+          </div>
+
+          <!-- Leaderboard -->
+          <div class="content-card">
+            <div class="card-header">
+              <h3>🏆 Community Leaderboard</h3>
+              <a href="#" class="card-link" onclick="showPage('community', document.querySelector('[data-page=community]'))">View All</a>
+            </div>
+            <div class="leaderboard-list" id="leaderboard-list">
+              <!-- populated by JS -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Insights Banner -->
+        <div class="insights-banner">
+          <div class="insight-icon">🤖</div>
+          <div class="insight-content">
+            <strong>GreenAI Insight:</strong> Your transport emissions increased by 8% this week. Consider carpooling on Tuesday/Thursday commutes to save ~0.4kg CO₂ and earn 120 GreenCoins.
+          </div>
+          <button class="btn btn-ghost btn-sm" onclick="showPage('ai', document.querySelector('[data-page=ai]'))">Learn More →</button>
+        </div>
+      </div>
+
+      <!-- ===== PAGE: CARBON TRACKER ===== -->
+      <div class="page" id="page-tracker">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Carbon Tracker</h1>
+            <p class="page-subtitle">Real-time monitoring of your carbon emissions across all activities</p>
+          </div>
+        </div>
+        <div class="tracker-grid">
+          <div class="tracker-category-card" data-category="transport">
+            <div class="tc-header">
+              <span class="tc-icon">🚗</span>
+              <h3>Transport</h3>
+              <span class="tc-value" id="tc-transport">1.8 tCO₂e</span>
+            </div>
+            <div class="tc-bar"><div class="tc-fill" style="width:43%; background: linear-gradient(90deg, #ef4444, #f97316)"></div></div>
+            <div class="tc-breakdown">
+              <div class="tcb-item"><span>Car (petrol)</span><span>1.2t</span></div>
+              <div class="tcb-item"><span>Flights</span><span>0.4t</span></div>
+              <div class="tcb-item"><span>Public transit</span><span>0.2t</span></div>
+            </div>
+            <button class="btn btn-ghost btn-sm" onclick="openLogModal('transport')">+ Log Trip</button>
+          </div>
+          <div class="tracker-category-card" data-category="food">
+            <div class="tc-header">
+              <span class="tc-icon">🥗</span>
+              <h3>Food & Diet</h3>
+              <span class="tc-value">1.1 tCO₂e</span>
+            </div>
+            <div class="tc-bar"><div class="tc-fill" style="width:26%; background: linear-gradient(90deg, #22c55e, #86efac)"></div></div>
+            <div class="tc-breakdown">
+              <div class="tcb-item"><span>Meat & fish</span><span>0.7t</span></div>
+              <div class="tcb-item"><span>Dairy</span><span>0.3t</span></div>
+              <div class="tcb-item"><span>Produce</span><span>0.1t</span></div>
+            </div>
+            <button class="btn btn-ghost btn-sm" onclick="openLogModal('food')">+ Log Meal</button>
+          </div>
+          <div class="tracker-category-card" data-category="energy">
+            <div class="tc-header">
+              <span class="tc-icon">⚡</span>
+              <h3>Home Energy</h3>
+              <span class="tc-value">0.8 tCO₂e</span>
+            </div>
+            <div class="tc-bar"><div class="tc-fill" style="width:19%; background: linear-gradient(90deg, #f59e0b, #fbbf24)"></div></div>
+            <div class="tc-breakdown">
+              <div class="tcb-item"><span>Electricity</span><span>0.5t</span></div>
+              <div class="tcb-item"><span>Heating</span><span>0.3t</span></div>
+            </div>
+            <button class="btn btn-ghost btn-sm" onclick="openLogModal('energy')">+ Log Usage</button>
+          </div>
+          <div class="tracker-category-card" data-category="shopping">
+            <div class="tc-header">
+              <span class="tc-icon">🛍️</span>
+              <h3>Shopping</h3>
+              <span class="tc-value">0.5 tCO₂e</span>
+            </div>
+            <div class="tc-bar"><div class="tc-fill" style="width:12%; background: linear-gradient(90deg, #a855f7, #c084fc)"></div></div>
+            <div class="tc-breakdown">
+              <div class="tcb-item"><span>Clothing</span><span>0.2t</span></div>
+              <div class="tcb-item"><span>Electronics</span><span>0.2t</span></div>
+              <div class="tcb-item"><span>Other</span><span>0.1t</span></div>
+            </div>
+            <button class="btn btn-ghost btn-sm" onclick="openLogModal('shopping')">+ Log Purchase</button>
+          </div>
+        </div>
+
+        <div class="tracker-live-feed">
+          <h3>Recent Activity Log</h3>
+          <div class="feed-list" id="activity-feed">
+            <!-- populated by JS -->
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== PAGE: ACTIONS ===== -->
+      <div class="page" id="page-actions">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Your Action Plan</h1>
+            <p class="page-subtitle">AI-curated micro-actions for maximum impact</p>
+          </div>
+          <div class="header-actions">
+            <div class="filter-tabs">
+              <button class="filter-tab active" onclick="filterActions('all',this)">All</button>
+              <button class="filter-tab" onclick="filterActions('transport',this)">🚗 Transport</button>
+              <button class="filter-tab" onclick="filterActions('food',this)">🥗 Food</button>
+              <button class="filter-tab" onclick="filterActions('energy',this)">⚡ Energy</button>
+            </div>
+          </div>
+        </div>
+        <div class="actions-full-grid" id="actions-full-grid">
+          <!-- populated by JS -->
+        </div>
+      </div>
+
+      <!-- ===== PAGE: ANALYTICS ===== -->
+      <div class="page" id="page-analytics">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Analytics</h1>
+            <p class="page-subtitle">Deep insights into your sustainability journey</p>
+          </div>
+        </div>
+        <div class="analytics-grid">
+          <div class="analytics-card analytics-wide">
+            <h3>Monthly Progress</h3>
+            <canvas id="monthly-chart"></canvas>
+          </div>
+          <div class="analytics-card">
+            <h3>Category Comparison</h3>
+            <canvas id="radar-chart"></canvas>
+          </div>
+          <div class="analytics-card">
+            <h3>Emission Heatmap</h3>
+            <div class="heatmap-grid" id="heatmap"></div>
+          </div>
+          <div class="analytics-card analytics-wide">
+            <h3>Personal vs. Global Benchmarks</h3>
+            <canvas id="benchmark-chart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== PAGE: COMMUNITY ===== -->
+      <div class="page" id="page-community">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Community</h1>
+            <p class="page-subtitle">Connect, compete, and inspire each other</p>
+          </div>
+        </div>
+        <div class="community-grid">
+          <div class="community-card challenge-card">
+            <div class="challenge-badge">🔥 Active</div>
+            <h3>30-Day Meatless Challenge</h3>
+            <p>Join 8,420 participants reducing food emissions</p>
+            <div class="challenge-progress">
+              <div class="cp-bar"><div class="cp-fill" style="width:73%"></div></div>
+              <span>Day 22 of 30</span>
+            </div>
+            <div class="challenge-stats">
+              <div><strong>8,420</strong><small>Participants</small></div>
+              <div><strong>2.1t</strong><small>CO₂ Saved</small></div>
+              <div><strong>+50</strong><small>GreenCoins/day</small></div>
+            </div>
+            <button class="btn btn-primary btn-sm">Join Challenge</button>
+          </div>
+          <div class="community-card challenge-card">
+            <div class="challenge-badge">🌟 New</div>
+            <h3>Cycle to Work Week</h3>
+            <p>Swap car commutes for cycling this week</p>
+            <div class="challenge-progress">
+              <div class="cp-bar"><div class="cp-fill" style="width:0%"></div></div>
+              <span>Starts Monday</span>
+            </div>
+            <div class="challenge-stats">
+              <div><strong>3,210</strong><small>Registered</small></div>
+              <div><strong>-</strong><small>CO₂ Target: 1.5t</small></div>
+              <div><strong>+80</strong><small>GreenCoins</small></div>
+            </div>
+            <button class="btn btn-primary btn-sm">Register Now</button>
+          </div>
+          <div class="community-card full-leaderboard-card">
+            <h3>🏆 Global Leaderboard</h3>
+            <div class="full-leaderboard" id="full-leaderboard"></div>
+          </div>
+          <div class="community-card feed-card">
+            <h3>🌍 Community Feed</h3>
+            <div class="community-feed" id="community-feed">
+              <!-- populated by JS -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== PAGE: CALCULATOR ===== -->
+      <div class="page" id="page-calculator">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Carbon Calculator</h1>
+            <p class="page-subtitle">Log your activities and get precise emission measurements</p>
+          </div>
+        </div>
+        <div class="calculator-layout">
+          <div class="calc-form-panel">
+            <div class="calc-tabs">
+              <button class="calc-tab active" onclick="switchCalcTab('transport',this)">🚗 Transport</button>
+              <button class="calc-tab" onclick="switchCalcTab('food',this)">🥗 Food</button>
+              <button class="calc-tab" onclick="switchCalcTab('energy',this)">⚡ Energy</button>
+              <button class="calc-tab" onclick="switchCalcTab('shopping',this)">🛍️ Shopping</button>
+            </div>
+            <!-- Transport Tab -->
+            <div class="calc-tab-content active" id="calc-transport">
+              <div class="form-group">
+                <label>Transport Type</label>
+                <select id="calc-transport-type" class="calc-select" onchange="updateCalcResult()">
+                  <option value="car-petrol">Car (Petrol) — 0.21 kg CO₂/km</option>
+                  <option value="car-diesel">Car (Diesel) — 0.17 kg CO₂/km</option>
+                  <option value="car-electric">Car (Electric) — 0.05 kg CO₂/km</option>
+                  <option value="bus">Bus — 0.08 kg CO₂/km</option>
+                  <option value="train">Train — 0.04 kg CO₂/km</option>
+                  <option value="flight-short">Flight (Short haul) — 0.25 kg CO₂/km</option>
+                  <option value="flight-long">Flight (Long haul) — 0.19 kg CO₂/km</option>
+                  <option value="motorcycle">Motorcycle — 0.11 kg CO₂/km</option>
+                  <option value="cycling">Cycling / Walking — 0 kg CO₂</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Distance (km)</label>
+                <div class="input-wrap">
+                  <input type="number" id="calc-distance" placeholder="Enter distance" min="0" oninput="updateCalcResult()" />
+                  <span class="input-suffix">km</span>
+                </div>
+              </div>
+              <div class="form-group">
+                <label>Passengers (for shared rides)</label>
+                <input type="number" id="calc-passengers" value="1" min="1" max="8" oninput="updateCalcResult()" />
+              </div>
+            </div>
+            <!-- Food Tab -->
+            <div class="calc-tab-content" id="calc-food">
+              <div class="form-group">
+                <label>Meal Type</label>
+                <select id="calc-food-type" class="calc-select" onchange="updateCalcResult()">
+                  <option value="beef">Beef meal — 27 kg CO₂/kg</option>
+                  <option value="lamb">Lamb meal — 39 kg CO₂/kg</option>
+                  <option value="pork">Pork meal — 12 kg CO₂/kg</option>
+                  <option value="chicken">Chicken meal — 6.9 kg CO₂/kg</option>
+                  <option value="fish">Fish meal — 6 kg CO₂/kg</option>
+                  <option value="dairy">Dairy meal — 3.2 kg CO₂/kg</option>
+                  <option value="vegan">Vegan meal — 1.9 kg CO₂/kg</option>
+                  <option value="vegetarian">Vegetarian meal — 2.5 kg CO₂/kg</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Servings</label>
+                <input type="number" id="calc-servings" value="1" min="0.5" step="0.5" oninput="updateCalcResult()" />
+              </div>
+            </div>
+            <!-- Energy Tab -->
+            <div class="calc-tab-content" id="calc-energy">
+              <div class="form-group">
+                <label>Energy Type</label>
+                <select id="calc-energy-type" class="calc-select" onchange="updateCalcResult()">
+                  <option value="electricity-uk">Electricity (UK grid) — 0.21 kg CO₂/kWh</option>
+                  <option value="electricity-us">Electricity (US grid) — 0.39 kg CO₂/kWh</option>
+                  <option value="electricity-solar">Solar electricity — 0.04 kg CO₂/kWh</option>
+                  <option value="gas">Natural gas — 2.0 kg CO₂/m³</option>
+                  <option value="oil">Heating oil — 2.52 kg CO₂/L</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Amount Used</label>
+                <div class="input-wrap">
+                  <input type="number" id="calc-energy-amt" placeholder="Amount" min="0" oninput="updateCalcResult()" />
+                  <span class="input-suffix" id="energy-unit">kWh</span>
+                </div>
+              </div>
+            </div>
+            <!-- Shopping Tab -->
+            <div class="calc-tab-content" id="calc-shopping">
+              <div class="form-group">
+                <label>Product Category</label>
+                <select id="calc-shopping-type" class="calc-select" onchange="updateCalcResult()">
+                  <option value="clothing">Clothing — 15 kg CO₂/item</option>
+                  <option value="electronics-phone">Smartphone — 70 kg CO₂/unit</option>
+                  <option value="electronics-laptop">Laptop — 300 kg CO₂/unit</option>
+                  <option value="electronics-tv">TV — 350 kg CO₂/unit</option>
+                  <option value="furniture">Furniture — 80 kg CO₂/item</option>
+                  <option value="books">Books — 1 kg CO₂/item</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Quantity</label>
+                <input type="number" id="calc-qty" value="1" min="1" oninput="updateCalcResult()" />
+              </div>
+            </div>
+
+            <button class="btn btn-primary btn-full" onclick="logActivity()">
+              ✅ Log Activity & Save
+            </button>
+          </div>
+
+          <!-- Result Panel -->
+          <div class="calc-result-panel">
+            <div class="calc-result-card">
+              <h3>Emission Result</h3>
+              <div class="result-value">
+                <span class="result-num" id="result-num">0.0</span>
+                <span class="result-unit">kg CO₂e</span>
+              </div>
+              <div class="result-context" id="result-context">Enter details to see your emission</div>
+              <div class="result-equivalents" id="result-equivalents"></div>
+              <div class="result-tip" id="result-tip"></div>
+            </div>
+            <div class="calc-history-card">
+              <h3>Recent Logs</h3>
+              <div class="calc-history" id="calc-history"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== PAGE: OFFSET HUB ===== -->
+      <div class="page" id="page-offset">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Offset Hub</h1>
+            <p class="page-subtitle">Invest in verified climate projects to neutralize your remaining emissions</p>
+          </div>
+        </div>
+        <div class="offset-banner">
+          <div class="ob-info">
+            <span class="ob-icon">📊</span>
+            <div>
+              <strong>Your remaining footprint to offset: 2.1 tCO₂e</strong>
+              <p>You've already reduced 2.1t through actions. Offset the rest to go net zero!</p>
+            </div>
+          </div>
+          <div class="ob-cost">≈ <strong>$42</strong> to offset</div>
+        </div>
+        <div class="offset-grid">
+          <div class="offset-project-card">
+            <div class="op-image" style="background: linear-gradient(135deg, #065f46, #22c55e)">🌳</div>
+            <div class="op-content">
+              <div class="op-badge">🔒 Gold Standard Verified</div>
+              <h3>Amazon Reforestation Project</h3>
+              <p>Brazil · Rainforest restoration protecting biodiversity hotspots</p>
+              <div class="op-stats">
+                <span>⭐ 4.9/5</span>
+                <span>🌳 50,000 trees planted</span>
+                <span>💚 $18/tonne</span>
+              </div>
+              <button class="btn btn-primary btn-sm" onclick="offsetProject(18, 'Amazon Reforestation')">Offset with this project</button>
+            </div>
+          </div>
+          <div class="offset-project-card">
+            <div class="op-image" style="background: linear-gradient(135deg, #1e3a5f, #3b82f6)">🌊</div>
+            <div class="op-content">
+              <div class="op-badge">🏅 Blue Carbon Verified</div>
+              <h3>Mangrove Restoration — Indonesia</h3>
+              <p>Coastal mangroves sequester 4x more carbon than forests</p>
+              <div class="op-stats">
+                <span>⭐ 4.8/5</span>
+                <span>🌿 8,200 ha restored</span>
+                <span>💚 $22/tonne</span>
+              </div>
+              <button class="btn btn-primary btn-sm" onclick="offsetProject(22, 'Mangrove Restoration')">Offset with this project</button>
+            </div>
+          </div>
+          <div class="offset-project-card">
+            <div class="op-image" style="background: linear-gradient(135deg, #92400e, #f59e0b)">☀️</div>
+            <div class="op-content">
+              <div class="op-badge">⚡ Renewable Energy</div>
+              <h3>Solar Farm — Rural India</h3>
+              <p>Bringing clean energy to off-grid communities in Rajasthan</p>
+              <div class="op-stats">
+                <span>⭐ 4.7/5</span>
+                <span>⚡ 50MW capacity</span>
+                <span>💚 $15/tonne</span>
+              </div>
+              <button class="btn btn-primary btn-sm" onclick="offsetProject(15, 'Solar Farm India')">Offset with this project</button>
+            </div>
+          </div>
+          <div class="offset-project-card">
+            <div class="op-image" style="background: linear-gradient(135deg, #4a1d96, #a855f7)">🌬️</div>
+            <div class="op-content">
+              <div class="op-badge">🌀 Wind Power</div>
+              <h3>Wind Energy — Scotland</h3>
+              <p>Offshore wind farm replacing coal-fired power plants</p>
+              <div class="op-stats">
+                <span>⭐ 4.9/5</span>
+                <span>💨 200MW capacity</span>
+                <span>💚 $20/tonne</span>
+              </div>
+              <button class="btn btn-primary btn-sm" onclick="offsetProject(20, 'Scotland Wind Farm')">Offset with this project</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== PAGE: GREENAI ===== -->
+      <div class="page" id="page-ai">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">GreenAI Assistant</h1>
+            <p class="page-subtitle">Your personal AI-powered sustainability advisor</p>
+          </div>
+        </div>
+        <div class="ai-layout">
+          <div class="ai-chat-panel">
+            <div class="chat-messages" id="chat-messages">
+              <div class="chat-bubble bot-bubble">
+                <div class="bot-avatar">🤖</div>
+                <div class="bubble-content">
+                  <p>👋 Hi! I'm GreenAI, your personal sustainability advisor. I can help you:</p>
+                  <ul>
+                    <li>🎯 Understand your carbon footprint</li>
+                    <li>💡 Find eco-friendly alternatives</li>
+                    <li>📊 Interpret your data & trends</li>
+                    <li>🌱 Plan your journey to net zero</li>
+                  </ul>
+                  <p>What would you like to know today?</p>
+                </div>
+              </div>
+            </div>
+            <div class="chat-suggestions" id="chat-suggestions">
+              <button class="suggestion-btn" onclick="askAI(this.textContent)">How can I reduce transport emissions?</button>
+              <button class="suggestion-btn" onclick="askAI(this.textContent)">What's my biggest impact area?</button>
+              <button class="suggestion-btn" onclick="askAI(this.textContent)">How to start a plant-based diet?</button>
+              <button class="suggestion-btn" onclick="askAI(this.textContent)">Best carbon offset projects?</button>
+            </div>
+            <form class="chat-input-form" id="chat-form" onsubmit="handleChatSubmit(event)">
+              <input type="text" class="chat-input" id="chat-input" placeholder="Ask GreenAI anything..." autocomplete="off" />
+              <button type="submit" class="chat-send-btn" aria-label="Send">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+              </button>
+            </form>
+          </div>
+          <div class="ai-context-panel">
+            <div class="context-card">
+              <h4>Your Profile at a Glance</h4>
+              <div class="profile-items">
+                <div class="profile-item"><span>📍 Location</span><span id="profile-location">San Francisco</span></div>
+                <div class="profile-item"><span>🚗 Transport</span><span>Car + Public</span></div>
+                <div class="profile-item"><span>🥩 Diet</span><span>Flexitarian</span></div>
+                <div class="profile-item"><span>⚡ Energy</span><span>Mixed grid</span></div>
+                <div class="profile-item"><span>📦 Shopping</span><span>Moderate</span></div>
+              </div>
+            </div>
+            <div class="context-card">
+              <h4>Quick Actions</h4>
+              <button class="quick-action-btn" onclick="askAI('Give me my weekly sustainability report')">📊 Weekly Report</button>
+              <button class="quick-action-btn" onclick="askAI('What actions should I do today?')">⚡ Today\'s Top Actions</button>
+              <button class="quick-action-btn" onclick="askAI('Compare my footprint to similar users')">👥 Peer Comparison</button>
+              <button class="quick-action-btn" onclick="askAI('Create a 30-day net zero plan for me')">🎯 30-Day Plan</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== PAGE: SETTINGS ===== -->
+      <div class="page" id="page-settings">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Settings</h1>
+            <p class="page-subtitle">Customize your TerraVerde experience</p>
+          </div>
+        </div>
+        <div class="settings-grid">
+          <div class="settings-card">
+            <h3>Profile</h3>
+            <div class="settings-avatar-row">
+              <div class="settings-avatar" id="settings-avatar">AG</div>
+              <div>
+                <button class="btn btn-ghost btn-sm" id="change-photo-btn">Change Photo</button>
+                <input type="file" id="avatar-input" accept="image/*" style="display:none" />
+                <p class="settings-hint">JPG, PNG up to 2MB</p>
+              </div>
+            </div>
+            <div class="form-group"><label>Display Name</label><input type="text" class="settings-input" id="settings-name" value="Alex Green" /></div>
+            <div class="form-group"><label>Email</label><input type="email" id="settings-email" class="settings-input" value="alex@example.com" /></div>
+            <div class="form-group"><label>Location</label>
+              <input type="text" class="settings-input" id="settings-location" value="San Francisco, CA" />
+            </div>
+            <button class="btn btn-primary btn-sm" onclick="saveSettings()">Save Changes</button>
+          </div>
+          <div class="settings-card">
+            <h3>Notifications</h3>
+            <div class="settings-toggle-row">
+              <div><strong>Daily Reminders</strong><p>Get reminded to log daily activities</p></div>
+              <label class="toggle-switch"><input type="checkbox" checked /><span class="toggle-slider"></span></label>
+            </div>
+            <div class="settings-toggle-row">
+              <div><strong>Weekly Reports</strong><p>Receive weekly progress summary</p></div>
+              <label class="toggle-switch"><input type="checkbox" checked /><span class="toggle-slider"></span></label>
+            </div>
+            <div class="settings-toggle-row">
+              <div><strong>Community Updates</strong><p>Challenges and leaderboard changes</p></div>
+              <label class="toggle-switch"><input type="checkbox" /><span class="toggle-slider"></span></label>
+            </div>
+            <div class="settings-toggle-row">
+              <div><strong>GreenAI Tips</strong><p>Personalized eco-tips from AI</p></div>
+              <label class="toggle-switch"><input type="checkbox" checked /><span class="toggle-slider"></span></label>
+            </div>
+          </div>
+          <div class="settings-card">
+            <h3>Privacy & Data</h3>
+            <div class="settings-toggle-row">
+              <div><strong>Public Profile</strong><p>Show on community leaderboard</p></div>
+              <label class="toggle-switch"><input type="checkbox" checked /><span class="toggle-slider"></span></label>
+            </div>
+            <div class="settings-toggle-row">
+              <div><strong>Anonymous Analytics</strong><p>Help improve our AI with anonymized data</p></div>
+              <label class="toggle-switch"><input type="checkbox" checked /><span class="toggle-slider"></span></label>
+            </div>
+            <button class="btn btn-ghost btn-sm danger-btn">Delete My Data</button>
+          </div>
+          <div class="settings-card">
+            <h3>Appearance</h3>
+            <div class="settings-toggle-row">
+              <div><strong>Dark Mode</strong><p id="appearance-mode-text">Currently enabled</p></div>
+              <label class="toggle-switch"><input type="checkbox" id="settings-dark-mode" checked /><span class="toggle-slider"></span></label>
+            </div>
+            <div class="form-group"><label>Measurement Units</label>
+              <select class="settings-input">
+                <option>Metric (kg CO₂e)</option>
+                <option>Imperial (lbs CO₂e)</option>
+              </select>
+            </div>
+            <div class="form-group"><label>Currency</label>
+              <select class="settings-input">
+                <option>USD ($)</option>
+                <option>EUR (€)</option>
+                <option>GBP (£)</option>
+                <option>INR (₹)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- =========== MODALS =========== -->
+  <!-- Log Activity Modal -->
+  <div class="modal-overlay" id="log-modal" hidden>
+    <div class="modal">
+      <div class="modal-header">
+        <h3 id="modal-title">Log Activity</h3>
+        <button class="modal-close" onclick="closeModal('log-modal')" aria-label="Close">✕</button>
+      </div>
+      <div class="modal-body" id="modal-body">
+        <!-- Dynamic content -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <script src="dashboard.js"></script>
+  <script src="realtime-handlers.js"></script>
+</body>
+</html>

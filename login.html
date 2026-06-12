@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="dark" />
+  <title>Sign In — TerraVerde</title>
+  <meta name="description" content="Sign in to your TerraVerde account and continue your sustainability journey." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="auth-body">
+
+  <canvas id="particle-canvas"></canvas>
+  <div class="bg-orbs">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+
+  <div class="auth-container">
+    <!-- Left Panel -->
+    <div class="auth-left">
+      <a href="index.html" class="nav-logo auth-brand-logo">
+        <span class="logo-icon">🌿</span>
+        <span class="logo-text">Terra<span class="logo-accent">Verde</span></span>
+      </a>
+      <div class="auth-left-content">
+        <h2 class="auth-headline">Track your <span class="gradient-text">carbon story</span> and help write a better one.</h2>
+        <div class="auth-stats">
+          <div class="auth-stat">
+            <span class="auth-stat-num">120K+</span>
+            <span class="auth-stat-label">Active Users</span>
+          </div>
+          <div class="auth-stat">
+            <span class="auth-stat-num">8,400T</span>
+            <span class="auth-stat-label">CO₂ Saved</span>
+          </div>
+          <div class="auth-stat">
+            <span class="auth-stat-num">52K</span>
+            <span class="auth-stat-label">Trees Planted</span>
+          </div>
+        </div>
+        <div class="auth-testimonial">
+          <div class="t-stars">★★★★★</div>
+          <p>"I've reduced my footprint by 34% in just 3 months. TerraVerde makes it effortless!"</p>
+          <div class="t-author">
+            <div class="t-avatar" style="background: linear-gradient(135deg, #22c55e, #16a34a)">SA</div>
+            <div><strong>Sarah A.</strong> · San Francisco, CA</div>
+          </div>
+        </div>
+      </div>
+      <div class="auth-left-bg"></div>
+    </div>
+
+    <!-- Right Panel - Form -->
+    <div class="auth-right">
+      <div class="auth-form-wrap">
+        <div class="auth-form-header">
+          <h1>Welcome back 👋</h1>
+          <p>Sign in to continue your green journey</p>
+        </div>
+
+        <!-- Social Auth -->
+        <div class="auth-note-social">
+          <p style="font-size: 0.85rem; color: #999; margin-bottom: 1rem;">💡 Demo: Use any email/password to test. Data saves locally.</p>
+        </div>
+
+        <div class="divider"><span>sign in with email</span></div>
+
+        <!-- Login Form -->
+        <form class="auth-form" id="login-form" novalidate>
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <div class="input-wrap">
+              <span class="input-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              </span>
+              <input type="email" id="email" name="email" placeholder="you@example.com" autocomplete="email" required />
+            </div>
+            <span class="field-error" id="email-error"></span>
+          </div>
+          <div class="form-group">
+            <label for="password">
+              Password
+              <a href="#" class="forgot-link">Forgot password?</a>
+            </label>
+            <div class="input-wrap">
+              <span class="input-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+              </span>
+              <input type="password" id="password" name="password" placeholder="••••••••" autocomplete="current-password" required />
+              <button type="button" class="toggle-pass" id="toggle-pass" aria-label="Toggle password visibility">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+            <span class="field-error" id="pass-error"></span>
+          </div>
+          <div class="form-check">
+            <input type="checkbox" id="remember-me" name="remember-me" />
+            <label for="remember-me">Keep me signed in for 30 days</label>
+          </div>
+          <button type="submit" class="btn btn-primary btn-full btn-glow" id="login-btn">
+            <span class="btn-text">Sign In</span>
+            <span class="btn-spinner" hidden>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="spin"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+            </span>
+          </button>
+        </form>
+
+        <p class="auth-switch">Don't have an account? <a href="signup.html">Create one free →</a></p>
+
+        <div class="demo-login">
+          <p>Try the demo instantly:</p>
+          <button class="btn btn-ghost btn-sm" id="demo-btn" onclick="demoLogin()">
+            🚀 Enter as Demo User
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+  <script>
+    // Login logic
+    document.getElementById('login-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const email = document.getElementById('email').value;
+      const pass = document.getElementById('password').value;
+      let valid = true;
+
+      document.getElementById('email-error').textContent = '';
+      document.getElementById('pass-error').textContent = '';
+
+      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        document.getElementById('email-error').textContent = 'Please enter a valid email address';
+        valid = false;
+      }
+      if (!pass || pass.length < 6) {
+        document.getElementById('pass-error').textContent = 'Password must be at least 6 characters';
+        valid = false;
+      }
+      if (!valid) return;
+
+      const btn = document.getElementById('login-btn');
+      btn.querySelector('.btn-text').hidden = true;
+      btn.querySelector('.btn-spinner').hidden = false;
+      btn.disabled = true;
+
+      setTimeout(() => {
+        // Store user session
+        localStorage.setItem('tv_user', JSON.stringify({ name: 'Alex Green', email, avatar: 'AG', score: 4.2, level: 'Eco Warrior' }));
+        window.location.href = 'dashboard.html';
+      }, 1500);
+    });
+
+    function socialLogin(provider) {
+      const btn = event.currentTarget;
+      btn.textContent = `Connecting to ${provider}...`;
+      btn.disabled = true;
+      setTimeout(() => {
+        localStorage.setItem('tv_user', JSON.stringify({ name: 'Alex Green', email: 'alex@example.com', avatar: 'AG', score: 4.2, level: 'Eco Warrior' }));
+        window.location.href = 'dashboard.html';
+      }, 1200);
+    }
+
+    function demoLogin() {
+      localStorage.setItem('tv_user', JSON.stringify({ name: 'Demo User', email: 'demo@terraverde.earth', avatar: 'DU', score: 6.8, level: 'Green Starter' }));
+      window.location.href = 'dashboard.html';
+    }
+
+    // Toggle password visibility
+    document.getElementById('toggle-pass').addEventListener('click', function() {
+      const input = document.getElementById('password');
+      input.type = input.type === 'password' ? 'text' : 'password';
+    });
+  </script>
+</body>
+</html>

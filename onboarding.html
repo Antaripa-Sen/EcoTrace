@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="dark" />
+  <title>Calculate Your Footprint — TerraVerde</title>
+  <meta name="description" content="Set up your carbon tracking baseline in under 2 minutes." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="onboarding-body">
+
+  <!-- Particle Canvas -->
+  <canvas id="particle-canvas"></canvas>
+
+  <!-- BG Orbs -->
+  <div class="bg-orbs">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+
+  <div class="onboarding-container">
+    <div class="onboarding-header">
+      <a href="index.html" class="nav-logo" style="justify-content: center; margin-bottom: 20px;">
+        <span class="logo-icon">🌿</span>
+        <span class="logo-text">Terra<span class="logo-accent">Verde</span></span>
+      </a>
+      <h1>Let's build your green baseline 🌱</h1>
+      <p>Answer 4 quick questions. Our AI will compute your starting carbon footprint.</p>
+    </div>
+
+    <!-- Progress Indicator -->
+    <div class="progress-bar-wrap">
+      <div class="progress-fill" id="onboard-progress" style="width: 25%;"></div>
+    </div>
+
+    <!-- STEP 1: TRANSPORT -->
+    <div class="step-panel active" id="step-1">
+      <div class="step-panel-inner">
+        <h2>🚗 How do you usually get around?</h2>
+        <p>Select your primary mode of transportation for daily commutes and travel.</p>
+        
+        <div class="option-grid">
+          <div class="option-btn selected" data-value="1.8" data-category="transport">
+            <span class="opt-icon">🚗</span>
+            <span class="opt-label">Petrol / Diesel Car</span>
+            <span class="opt-co2">~1.8 tCO₂e/yr</span>
+          </div>
+          <div class="option-btn" data-value="0.4" data-category="transport">
+            <span class="opt-icon">⚡</span>
+            <span class="opt-label">Electric / Hybrid</span>
+            <span class="opt-co2">~0.4 tCO₂e/yr</span>
+          </div>
+          <div class="option-btn" data-value="0.2" data-category="transport">
+            <span class="opt-icon">🚌</span>
+            <span class="opt-label">Public Transport</span>
+            <span class="opt-co2">~0.2 tCO₂e/yr</span>
+          </div>
+          <div class="option-btn" data-value="0.0" data-category="transport">
+            <span class="opt-icon">🚲</span>
+            <span class="opt-label">Bicycle / Walk</span>
+            <span class="opt-co2">0.0 tCO₂e/yr</span>
+          </div>
+        </div>
+
+        <div class="step-actions">
+          <div></div> <!-- Spacer -->
+          <button class="btn btn-primary" onclick="nextStep(1)">
+            <span>Next: Diet</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 2: DIET -->
+    <div class="step-panel" id="step-2">
+      <div class="step-panel-inner">
+        <h2>🥗 What best describes your diet?</h2>
+        <p>Your eating habits make up a significant portion of your daily ecological impact.</p>
+        
+        <div class="option-grid">
+          <div class="option-btn" data-value="2.1" data-category="food">
+            <span class="opt-icon">🥩</span>
+            <span class="opt-label">Meat Lover</span>
+            <span class="opt-co2">~2.1 tCO₂e/yr</span>
+          </div>
+          <div class="option-btn selected" data-value="1.1" data-category="food">
+            <span class="opt-icon">🍖</span>
+            <span class="opt-label">Flexitarian (Average)</span>
+            <span class="opt-co2">~1.1 tCO₂e/yr</span>
+          </div>
+          <div class="option-btn" data-value="0.7" data-category="food">
+            <span class="opt-icon">🧀</span>
+            <span class="opt-label">Vegetarian</span>
+            <span class="opt-co2">~0.7 tCO₂e/yr</span>
+          </div>
+          <div class="option-btn" data-value="0.4" data-category="food">
+            <span class="opt-icon">🌱</span>
+            <span class="opt-label">Vegan</span>
+            <span class="opt-co2">~0.4 tCO₂e/yr</span>
+          </div>
+        </div>
+
+        <div class="step-actions">
+          <button class="btn btn-ghost" onclick="prevStep(2)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+            <span>Back</span>
+          </button>
+          <button class="btn btn-primary" onclick="nextStep(2)">
+            <span>Next: Energy</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 3: HOME ENERGY -->
+    <div class="step-panel" id="step-3">
+      <div class="step-panel-inner">
+        <h2>⚡ How is your home powered?</h2>
+        <p>Home heating, cooling, and electrical grids account for major carbon emissions.</p>
+        
+        <div class="option-grid">
+          <div class="option-btn" data-value="1.5" data-category="energy">
+            <span class="opt-icon">🏭</span>
+            <span class="opt-label">Coal / Natural Gas Grid</span>
+            <span class="opt-co2">~1.5 tCO₂e/yr</span>
+          </div>
+          <div class="option-btn selected" data-value="0.8" data-category="energy">
+            <span class="opt-icon">⚡</span>
+            <span class="opt-label">Mixed Grid (Average)</span>
+            <span class="opt-co2">~0.8 tCO₂e/yr</span>
+          </div>
+          <div class="option-btn" data-value="0.1" data-category="energy">
+            <span class="opt-icon">☀️</span>
+            <span class="opt-label">100% Green / Solar</span>
+            <span class="opt-co2">~0.1 tCO₂e/yr</span>
+          </div>
+          <div class="option-btn" data-value="0.3" data-category="energy">
+            <span class="opt-icon">🏡</span>
+            <span class="opt-label">Energy Saving Smart Home</span>
+            <span class="opt-co2">~0.3 tCO₂e/yr</span>
+          </div>
+        </div>
+
+        <div class="step-actions">
+          <button class="btn btn-ghost" onclick="prevStep(3)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+            <span>Back</span>
+          </button>
+          <button class="btn btn-primary" onclick="nextStep(3)">
+            <span>Next: Shopping</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 4: SHOPPING -->
+    <div class="step-panel" id="step-4">
+      <div class="step-panel-inner">
+        <h2>🛍️ What are your shopping habits?</h2>
+        <p>Purchases of clothing, electronics, and goods carry hidden manufacturing footprint cost.</p>
+        
+        <div class="option-grid">
+          <div class="option-btn" data-value="1.2" data-category="shopping">
+            <span class="opt-icon">🛍️</span>
+            <span class="opt-label">Frequent (New Trends)</span>
+            <span class="opt-co2">~1.2 tCO₂e/yr</span>
+          </div>
+          <div class="option-btn selected" data-value="0.6" data-category="shopping">
+            <span class="opt-icon">📦</span>
+            <span class="opt-label">Moderate (Average)</span>
+            <span class="opt-co2">~0.6 tCO₂e/yr</span>
+          </div>
+          <div class="option-btn" data-value="0.2" data-category="shopping">
+            <span class="opt-icon">👕</span>
+            <span class="opt-label">Minimalist (Essential Only)</span>
+            <span class="opt-co2">~0.2 tCO₂e/yr</span>
+          </div>
+          <div class="option-btn" data-value="0.1" data-category="shopping">
+            <span class="opt-icon">💚</span>
+            <span class="opt-label">Eco-Conscious / Secondhand</span>
+            <span class="opt-co2">~0.1 tCO₂e/yr</span>
+          </div>
+        </div>
+
+        <div class="step-actions">
+          <button class="btn btn-ghost" onclick="prevStep(4)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+            <span>Back</span>
+          </button>
+          <button class="btn btn-primary btn-glow" onclick="finishOnboarding()">
+            <span>Calculate My Footprint 🌱</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="app.js"></script>
+  <script>
+    // Selection state object
+    const scores = {
+      transport: 1.8,
+      food: 1.1,
+      energy: 0.8,
+      shopping: 0.6
+    };
+
+    // Option selection handler
+    document.querySelectorAll('.option-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const cat = this.getAttribute('data-category');
+        const val = parseFloat(this.getAttribute('data-value'));
+        
+        // Remove selection from siblings
+        this.parentElement.querySelectorAll('.option-btn').forEach(sibling => {
+          sibling.classList.remove('selected');
+        });
+        
+        // Add selected class to active
+        this.classList.add('selected');
+        scores[cat] = val;
+      });
+    });
+
+    function nextStep(current) {
+      document.getElementById(`step-${current}`).classList.remove('active');
+      document.getElementById(`step-${current + 1}`).classList.add('active');
+      
+      const pct = (current + 1) * 25;
+      document.getElementById('onboard-progress').style.width = `${pct}%`;
+    }
+
+    function prevStep(current) {
+      document.getElementById(`step-${current}`).classList.remove('active');
+      document.getElementById(`step-${current - 1}`).classList.add('active');
+      
+      const pct = (current - 1) * 25;
+      document.getElementById('onboard-progress').style.width = `${pct}%`;
+    }
+
+    function finishOnboarding() {
+      // Get current user details from local storage or set default demo values
+      let user = JSON.parse(localStorage.getItem('tv_user'));
+      if (!user) {
+        user = { name: 'Alex Green', email: 'alex@example.com', avatar: 'AG', level: 'Green Starter' };
+      }
+
+      // Calculate total footprint
+      const totalScore = parseFloat((scores.transport + scores.food + scores.energy + scores.shopping).toFixed(1));
+      
+      // Update session values
+      user.score = totalScore;
+      user.categories = { ...scores };
+      user.isNew = false;
+
+      // Save user to storage
+      localStorage.setItem('tv_user', JSON.stringify(user));
+      
+      // Redirect
+      window.location.href = 'dashboard.html';
+    }
+  </script>
+</body>
+</html>

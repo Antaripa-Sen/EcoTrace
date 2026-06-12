@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="dark" />
+  <title>TerraVerde — Track. Reduce. Restore.</title>
+  <meta name="description" content="TerraVerde helps you understand, track, and reduce your personal carbon footprint with AI-powered insights and real-time data. Join the planet's most intelligent sustainability movement." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script>
+    {
+      const colorScheme = localStorage.getItem("color-scheme");
+      if (colorScheme) {
+        document.querySelector('meta[name="color-scheme"]').content = colorScheme;
+      }
+    }
+  </script>
+</head>
+<body class="landing-body">
+
+  <!-- Particle Canvas -->
+  <canvas id="particle-canvas"></canvas>
+
+  <!-- Animated BG Orbs -->
+  <div class="bg-orbs">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+
+  <!-- =========== NAVBAR =========== -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">
+        <span class="logo-icon">🌿</span>
+        <span class="logo-text">Terra<span class="logo-accent">Verde</span></span>
+      </a>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#features" class="nav-link">Features</a></li>
+        <li><a href="#how-it-works" class="nav-link">How It Works</a></li>
+        <li><a href="#impact" class="nav-link">Impact</a></li>
+        <li><a href="login.html" class="nav-link nav-cta-link">Sign In</a></li>
+        <li><a href="signup.html" class="nav-btn btn-primary">Get Started Free</a></li>
+      </ul>
+      <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- =========== HERO SECTION =========== -->
+  <section class="hero" id="hero">
+    <div class="hero-content">
+      <div class="hero-badge reveal-up">
+        <span class="badge-dot"></span>
+        <span>🌿 AI-Powered Carbon Tracking & Reduction</span>
+      </div>
+      <h1 class="hero-title reveal-up delay-1">
+        Your Planet.<br/>
+        <span class="gradient-text">Your Responsibility.</span><br/>
+        Your Action.
+      </h1>
+      <p class="hero-subtitle reveal-up delay-2">
+        TerraVerde uses AI to decode your lifestyle and reveal exactly how much CO₂ you emit — then guides you to a greener life with personalized, science-backed micro-actions.
+      </p>
+      <div class="hero-stats reveal-up delay-3">
+        <div class="stat-pill">
+          <span class="stat-num" id="stat-users" data-target="120000">0</span>
+          <span class="stat-label">Active Users</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-pill">
+          <span class="stat-num" id="stat-co2" data-target="8400" data-suffix="T">0</span><span id="stat-co2-suffix">T</span>
+          <span class="stat-label">CO₂ Saved</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-pill">
+          <span class="stat-num" id="stat-trees" data-target="52000">0</span>
+          <span class="stat-label">Trees Planted</span>
+        </div>
+      </div>
+      <div class="hero-cta reveal-up delay-4">
+        <a href="signup.html" class="btn btn-primary btn-large btn-glow">
+          <span>Start Tracking Free</span>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <a href="dashboard.html" class="btn btn-ghost btn-large">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+          <span>View Demo</span>
+        </a>
+      </div>
+      <p class="hero-note reveal-up delay-5">No credit card required · Free forever plan available</p>
+    </div>
+    <div class="hero-visual reveal-right delay-2">
+      <div class="globe-container">
+        <div class="globe-glow"></div>
+        <canvas id="globe-canvas" width="480" height="480"></canvas>
+        <div class="globe-ring globe-ring-1"></div>
+        <div class="globe-ring globe-ring-2"></div>
+        <div class="globe-ring globe-ring-3"></div>
+        <!-- Floating Cards -->
+        <div class="floating-card card-co2">
+          <div class="card-icon">🌡️</div>
+          <div class="card-info">
+            <span class="card-val"><span id="demo-footprint">0</span> <small>tCO₂e/yr</small></span>
+            <span class="card-label">Demo Footprint</span>
+          </div>
+          <div class="card-trend down" id="demo-trend">▼ 0%</div>
+        </div>
+        <div class="floating-card card-streak">
+          <div class="card-icon">🔥</div>
+          <div class="card-info">
+            <span class="card-val" id="demo-streak">0</span>
+            <span class="card-label">Day Streak</span>
+          </div>
+          <div class="streak-dots" id="demo-streak-dots">
+          </div>
+        </div>
+        <div class="floating-card card-trees">
+          <div class="card-icon">🌳</div>
+          <div class="card-info">
+            <span class="card-val" id="demo-trees">0</span>
+            <span class="card-label">Trees Planted</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========== FEATURES SECTION =========== -->
+  <section class="features section" id="features">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Features</span>
+        <h2 class="section-title reveal-up">Everything you need to go <span class="gradient-text">net zero</span></h2>
+        <p class="section-subtitle reveal-up delay-1">Comprehensive tools powered by real-world data and machine learning to make sustainability effortless.</p>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card card-large reveal-up">
+          <div class="feature-icon-wrap icon-green">
+            <span>📊</span>
+          </div>
+          <h3>AI Carbon Calculator</h3>
+          <p>Connect your lifestyle data — travel, food, energy, shopping — and get a precise real-time carbon footprint with breakdown by category.</p>
+          <ul class="feature-list">
+            <li>✓ 50+ emission sources tracked</li>
+            <li>✓ Real-time updates</li>
+            <li>✓ Comparison with global averages</li>
+          </ul>
+        </div>
+        <div class="feature-card reveal-up delay-1">
+          <div class="feature-icon-wrap icon-blue">
+            <span>🎯</span>
+          </div>
+          <h3>Personalized Action Plans</h3>
+          <p>AI generates custom daily micro-actions based on your habits, location, and impact potential.</p>
+        </div>
+        <div class="feature-card reveal-up delay-2">
+          <div class="feature-icon-wrap icon-purple">
+            <span>📈</span>
+          </div>
+          <h3>Progress Analytics</h3>
+          <p>Interactive charts showing your journey with weekly reports and trend analysis.</p>
+        </div>
+        <div class="feature-card reveal-up delay-1">
+          <div class="feature-icon-wrap icon-orange">
+            <span>🌍</span>
+          </div>
+          <h3>Community Challenges</h3>
+          <p>Join global and local challenges. Compete with friends and unlock badges for green achievements.</p>
+        </div>
+        <div class="feature-card card-large reveal-up delay-2">
+          <div class="feature-icon-wrap icon-teal">
+            <span>🤖</span>
+          </div>
+          <h3>GreenAI Assistant</h3>
+          <p>Chat with our AI to get instant eco-advice, understand your impact, and discover sustainable alternatives in your daily decisions.</p>
+          <div class="chat-preview">
+            <div class="chat-msg bot">How can I reduce my food footprint?</div>
+            <div class="chat-msg user">Switch to plant-based meals 3x/week to save ~0.3 tCO₂e/year 🌱</div>
+          </div>
+        </div>
+        <div class="feature-card reveal-up delay-3">
+          <div class="feature-icon-wrap icon-pink">
+            <span>🏆</span>
+          </div>
+          <h3>Gamification & Rewards</h3>
+          <p>Earn GreenCoins for every eco-action. Redeem for real rewards from partner brands.</p>
+        </div>
+        <div class="feature-card reveal-up delay-1">
+          <div class="feature-icon-wrap icon-green">
+            <span>🔔</span>
+          </div>
+          <h3>Smart Reminders</h3>
+          <p>Contextual nudges at the right time — like reminding you to check EV charges or meal-prep on Sunday.</p>
+        </div>
+        <div class="feature-card reveal-up delay-2">
+          <div class="feature-icon-wrap icon-blue">
+            <span>📱</span>
+          </div>
+          <h3>Carbon Offsetting</h3>
+          <p>Offset remaining emissions by investing in certified reforestation and renewable energy projects.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========== HOW IT WORKS =========== -->
+  <section class="how-it-works section" id="how-it-works">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">How It Works</span>
+        <h2 class="section-title reveal-up">Three steps to a <span class="gradient-text">greener you</span></h2>
+      </div>
+      <div class="steps-container">
+        <div class="step reveal-left">
+          <div class="step-number">01</div>
+          <div class="step-content">
+            <div class="step-icon">🧮</div>
+            <h3>Calculate Your Footprint</h3>
+            <p>Answer a few questions about your lifestyle. Our AI analyzes 100+ data points across transport, diet, energy, and consumption to give you your precise carbon score in under 2 minutes.</p>
+          </div>
+        </div>
+        <div class="step-connector"></div>
+        <div class="step reveal-up delay-1">
+          <div class="step-number">02</div>
+          <div class="step-content">
+            <div class="step-icon">🎯</div>
+            <h3>Get Your Action Plan</h3>
+            <p>Receive daily personalized recommendations ranked by impact potential. Track your progress and see real-time reductions as you adopt greener habits.</p>
+          </div>
+        </div>
+        <div class="step-connector"></div>
+        <div class="step reveal-right delay-2">
+          <div class="step-number">03</div>
+          <div class="step-content">
+            <div class="step-icon">🌱</div>
+            <h3>Make Real Impact</h3>
+            <p>Connect with community, earn rewards, offset remaining emissions, and watch your collective impact grow. Together we've already saved 8,400 tonnes of CO₂.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========== IMPACT COUNTER =========== -->
+  <section class="impact-section section" id="impact">
+    <div class="impact-bg"></div>
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Real Impact</span>
+        <h2 class="section-title reveal-up">Our community is <span class="gradient-text">changing the world</span></h2>
+      </div>
+      <div class="impact-grid">
+        <div class="impact-card reveal-up">
+          <div class="impact-icon">🌿</div>
+          <div class="impact-number counter" data-target="8400">0</div>
+          <div class="impact-unit">Tonnes CO₂ Saved</div>
+          <div class="impact-desc">Equivalent to planting 140,000 trees</div>
+        </div>
+        <div class="impact-card reveal-up delay-1">
+          <div class="impact-icon">🌳</div>
+          <div class="impact-number counter" data-target="52000">0</div>
+          <div class="impact-unit">Trees Planted</div>
+          <div class="impact-desc">Across 12 reforestation projects</div>
+        </div>
+        <div class="impact-card reveal-up delay-2">
+          <div class="impact-icon">👥</div>
+          <div class="impact-number counter" data-target="120000">0</div>
+          <div class="impact-unit">Active Members</div>
+          <div class="impact-desc">Growing by 2,000 users per week</div>
+        </div>
+        <div class="impact-card reveal-up delay-3">
+          <div class="impact-icon">⚡</div>
+          <div class="impact-number counter" data-target="340">0</div>
+          <div class="impact-unit">MWh Clean Energy</div>
+          <div class="impact-desc">From renewable energy offset projects</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========== TESTIMONIALS =========== -->
+  <section class="testimonials section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Testimonials</span>
+        <h2 class="section-title reveal-up">Loved by <span class="gradient-text">eco-warriors</span> worldwide</h2>
+      </div>
+      <div class="testimonials-track">
+        <div class="testimonials-inner" id="testimonials-inner">
+          <div class="testimonial-card">
+            <div class="t-stars">★★★★★</div>
+            <p>"TerraVerde changed how I think about every purchase. I've cut my footprint by 34% in 3 months!"</p>
+            <div class="t-author"><div class="t-avatar" style="background: linear-gradient(135deg, #22c55e, #16a34a)">SA</div><div><strong>Sarah A.</strong><br><small>San Francisco, CA</small></div></div>
+          </div>
+          <div class="testimonial-card">
+            <div class="t-stars">★★★★★</div>
+            <p>"The AI recommendations are incredibly specific. It knew I drive to work and suggested the exact bus route!"</p>
+            <div class="t-author"><div class="t-avatar" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8)">MK</div><div><strong>Marcus K.</strong><br><small>London, UK</small></div></div>
+          </div>
+          <div class="testimonial-card">
+            <div class="t-stars">★★★★★</div>
+            <p>"The gamification keeps me motivated. My whole office is now competing on the leaderboard — 12 of us reduced our footprints together!"</p>
+            <div class="t-author"><div class="t-avatar" style="background: linear-gradient(135deg, #a855f7, #7c3aed)">PP</div><div><strong>Priya P.</strong><br><small>Mumbai, India</small></div></div>
+          </div>
+          <div class="testimonial-card">
+            <div class="t-stars">★★★★★</div>
+            <p>"Finally an app that doesn't guilt-trip you. It celebrates every small step and makes sustainability feel achievable."</p>
+            <div class="t-author"><div class="t-avatar" style="background: linear-gradient(135deg, #f59e0b, #d97706)">JL</div><div><strong>James L.</strong><br><small>Toronto, Canada</small></div></div>
+          </div>
+          <div class="testimonial-card">
+            <div class="t-stars">★★★★★</div>
+            <p>"As a sustainability consultant, I recommend TerraVerde to all my clients. The data accuracy is impressive."</p>
+            <div class="t-author"><div class="t-avatar" style="background: linear-gradient(135deg, #06b6d4, #0891b2)">EV</div><div><strong>Elena V.</strong><br><small>Stockholm, Sweden</small></div></div>
+          </div>
+          <!-- Duplicate for seamless loop -->
+          <div class="testimonial-card">
+            <div class="t-stars">★★★★★</div>
+            <p>"TerraVerde changed how I think about every purchase. I've cut my footprint by 34% in 3 months!"</p>
+            <div class="t-author"><div class="t-avatar" style="background: linear-gradient(135deg, #22c55e, #16a34a)">SA</div><div><strong>Sarah A.</strong><br><small>San Francisco, CA</small></div></div>
+          </div>
+          <div class="testimonial-card">
+            <div class="t-stars">★★★★★</div>
+            <p>"The AI recommendations are incredibly specific. It knew I drive to work and suggested the exact bus route!"</p>
+            <div class="t-author"><div class="t-avatar" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8)">MK</div><div><strong>Marcus K.</strong><br><small>London, UK</small></div></div>
+          </div>
+          <div class="testimonial-card">
+            <div class="t-stars">★★★★★</div>
+            <p>"The gamification keeps me motivated. My whole office is now competing on the leaderboard!"</p>
+            <div class="t-author"><div class="t-avatar" style="background: linear-gradient(135deg, #a855f7, #7c3aed)">PP</div><div><strong>Priya P.</strong><br><small>Mumbai, India</small></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========== CTA SECTION =========== -->
+  <section class="cta-section section">
+    <div class="container">
+      <div class="cta-box reveal-up">
+        <div class="cta-glow"></div>
+        <span class="section-tag">Join The Movement</span>
+        <h2>Ready to make your <span class="gradient-text">planet proud?</span></h2>
+        <p>Join 120,000+ people already making a difference. Start your journey in under 2 minutes.</p>
+        <div class="cta-actions">
+          <a href="signup.html" class="btn btn-primary btn-large btn-glow">
+            <span>Create Free Account</span>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+          <a href="login.html" class="btn btn-ghost btn-large">Sign In</a>
+        </div>
+        <p class="cta-note">Free plan includes full carbon calculator + 10 daily actions</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========== FOOTER =========== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <a href="index.html" class="nav-logo">
+            <span class="logo-icon">🌿</span>
+            <span class="logo-text">Terra<span class="logo-accent">Verde</span></span>
+          </a>
+          <p>Making sustainability personal, measurable, and rewarding. One carbon footprint at a time.</p>
+        </div>
+        <div class="footer-links">
+          <div class="footer-col">
+            <h4>Quick Links</h4>
+            <ul>
+              <li><a href="#features">Features</a></li>
+              <li><a href="#how-it-works">How It Works</a></li>
+              <li><a href="dashboard.html">Dashboard</a></li>
+              <li><a href="signup.html">Get Started</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 TerraVerde Inc. All rights reserved. 🌿 Carbon neutral company.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
